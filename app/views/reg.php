@@ -3,7 +3,7 @@
 <div class="container">
 
     <div class="form-container">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="#" method="post" enctype="multipart/form-data">
             <h2>Регистрация</h2>
 
             <div class="form-group form-group-left-align">
@@ -49,9 +49,9 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-submit" name="submit">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-submit" name="submit" href="user/addUser">Зарегистрироваться</button>
                 <br><br>
-                Зарегистрированы? &nbsp;<a href="/user/auth">Авторизируйтесь</a>
+                Зарегистрированы? &nbsp;<a href="/main/index">Авторизируйтесь</a>
             </div>
 
 
