@@ -49,9 +49,9 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-submit" name="submit" href="user/addUser">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-submit" name="submit">Зарегистрироваться</button>
                 <br><br>
-                Зарегистрированы? &nbsp;<a href="/main/index">Авторизируйтесь</a>
+                Зарегистрированы? &nbsp;<a href="/">Авторизируйтесь</a>
             </div>
 
 

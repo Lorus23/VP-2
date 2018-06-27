@@ -1,26 +1,29 @@
 <?php
 
 namespace App\models;
-
-use App\config\Db;
+use App\models\Db;
 
 class User
 {
-    public static function add($data)
+    public function add($data)
     {
+        $input = [
+            'name' => null,
+            'age' => null,
+            'description' => null,
+            'login' => null,
+            'password' => null
+        ];
         // Соединение с БД
-        $db = Db::getConnection();
+        $pdo = connect();
         // Текст запроса к БД
-        $sql = "INSERT INTO users (name,age,description,photo,login,password) VALUES (:name, :age, :description, :photo, :login, :password)";
+        $sql = "INSERT INTO users (name,age,description,login,password) VALUES (:name, :age, :description, :login, :password)";
         // Получение и возврат результатов. Используется подготовленный запрос
-        $result = $db->prepare($sql);
-        $password = md5($data['password']);
-        $values = (object)$data;
-        $result->bindParam(':name', $values->name);
-        $result->bindParam(':age', $values->age);
-        $result->bindParam(':description', $values->description);
-        $result->bindParam(':photo', $values->photo);
-        $result->bindParam(':login', $values->login);
-        $result->bindParam(':password', $password);
+        $stm = $pdo->prepare($sql);
+        $inserted = $stm->execute($input);
+        if ($inserted) {
+            return $input;
+        }
+        return null;
     }
 }

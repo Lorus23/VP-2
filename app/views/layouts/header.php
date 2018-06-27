@@ -38,10 +38,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="../main/index">Авторизация</a></li>
-                <li><a href="../main/registration">Регистрация</a></li>
-                <li><a href="../main/userList">Список пользователей</a></li>
-                <li><a href="../main/fileList">Список файлов</a></li>
+                <li class="active"><a href="../">Авторизация</a></li>
+                <li><a href="../user/registration">Регистрация</a></li>
+                <li><a href="../user/userList">Список пользователей</a></li>
+                <li><a href="../file/fileList">Список файлов</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

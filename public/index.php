@@ -5,7 +5,7 @@ require_once APPLICATION_PATH . "/../vendor/autoload.php";
 
 $routes = explode('/', $_SERVER['REQUEST_URI']);
 
-$controllerName = "Main";
+$controllerName = "User";
 $actionName = "index";
 
 if (sizeof($routes) > 2) {

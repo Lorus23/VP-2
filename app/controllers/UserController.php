@@ -7,7 +7,15 @@ use App\models\User;
 
 class UserController extends MainController
 {
-    public function addUser()
+    public function index()
+    {
+        $data = [
+            'users' => "user1"
+        ];
+        $this->view->render('index');
+    }
+
+    public function registration()
     {
         // Обработка формы
         if (isset($_POST['submit'])) {
@@ -25,20 +33,27 @@ class UserController extends MainController
         if ($errors == false) {
             // Если ошибок нет
             // Добавляем новый товар
-            $id = User::add($data);
-
+            $id = new User();
+            $regId = $id->add($data);
+            return $regId;
             // Если запись добавлена
-            if ($id) {
-                // Проверим, загружалось ли через форму изображение
-                if (is_uploaded_file($_FILES["image"]["tmp_name"])) {
-                    // Если загружалось, переместим его в нужную папке, дадим новое имя
-                    move_uploaded_file($_FILES["image"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/public/images/{$id}.jpg");
-                }
-            };
-            // Перенаправляем пользователя на страницу управлениями товарами
-            header("Location: /user/registration");
+//            if ($id) {
+//                // Проверим, загружалось ли через форму изображение
+//                if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
+//                    // Если загружалось, переместим его в нужную папке, дадим новое имя
+//                    move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/{$id}.jpg");
+//                }
+//            };
         }
+        $this->view->render('reg');
+    }
 
+    public function userList()
+    {
+        $data = [
+            'users' => "user1"
+        ];
+        $this->view->render('userlist', $data);
     }
 }
 
