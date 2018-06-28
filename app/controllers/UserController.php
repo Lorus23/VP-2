@@ -23,6 +23,7 @@ class UserController extends MainController
             // Получаем данные из формы
             $data = $_POST;
         }
+
         // Флаг ошибок в форме
         $errors = false;
         // При необходимости можно валидировать значения нужным образом
@@ -35,25 +36,31 @@ class UserController extends MainController
             // Добавляем новый товар
             $id = new User();
             $regId = $id->add($data);
-            return $regId;
+
             // Если запись добавлена
-//            if ($id) {
-//                // Проверим, загружалось ли через форму изображение
-//                if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
-//                    // Если загружалось, переместим его в нужную папке, дадим новое имя
-//                    move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/{$id}.jpg");
-//                }
-//            };
+            if ($regId) {
+                // Проверим, загружалось ли через форму изображение
+                if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
+                    // Если загружалось, переместим его в нужную папке, дадим новое имя
+                    move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/avatar{$regId}.jpg");
+                }
+            };
+            header("Location: /");
         }
         $this->view->render('reg');
+        return true;
+
     }
 
     public function userList()
     {
-        $data = [
-            'users' => "user1"
-        ];
-        $this->view->render('userlist', $data);
+        $data = new User();
+        $userList = $data->getUserList();
+
+//        $this->view->render('userlist');
+
+        require_once __DIR__ . '\..\views\userlist.php';
+
     }
 }
 

@@ -3,6 +3,7 @@
     <div class="container">
         <h1>Запретная зона, доступ только авторизированному пользователю</h1>
         <h2>Информация выводится из базы данных</h2>
+
         <table class="table table-bordered">
             <tr>
                 <th>Пользователь(логин)</th>
@@ -12,16 +13,20 @@
                 <th>Фотография</th>
                 <th>Действия</th>
             </tr>
-            <tr>
-                <td>vasya99</td>
-                <td>Вася</td>
-                <td>14</td>
-                <td>Эксперт в спорах в интернете</td>
-                <td><img src="http://lorempixel.com/people/200/200/" alt=""></td>
-                <td>
-                    <a href="">Удалить пользователя</a>
-                </td>
-            </tr>
+            <?php foreach ($userList as $item): ?>
+
+                <tr>
+                    <td><?php echo $item['login']; ?></td>
+                    <td><?php echo $item['name']; ?></td>
+                    <td><?php echo $item['age']; ?></td>
+                    <td><?php echo $item['description']; ?></td>
+
+                    <!-- Нужно доделать вывод картинки -->
+
+                    <td><img src="<?php echo $_SERVER['DOCUMENT_ROOT'].'/images/avatar'.$item['id']; ?> . '" alt=""></td>
+                    <td><a href="/user/delete/<?php $userList['id']; ?>">Удалить пользователя</a></td>
+                </tr>
+            <?php endforeach; ?>
         </table>
 
     </div><!-- /.container -->

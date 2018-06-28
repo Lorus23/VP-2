@@ -1,7 +1,7 @@
 <?php
-namespace App\models;
 
 $db = null;
+
 function connect()
 {
     global $db;
