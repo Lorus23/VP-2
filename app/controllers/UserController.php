@@ -94,6 +94,11 @@ class UserController extends MainController
         $data = new User();
         $usersList = $data->getUserList();
 
+        if ($usersList['age']>=18){
+            $usersList['age'] = $usersList['age'].' cовершеннолетний';
+        }
+
+
 //        $this->view->render('userlist');
 
         require_once __DIR__ . '\..\views\userlist.php';

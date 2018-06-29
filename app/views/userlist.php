@@ -16,7 +16,7 @@
                 <tr>
                     <td><?php echo $item['login']; ?></td>
                     <td><?php echo $item['name']; ?></td>
-                    <td><?php echo $item['age']; ?></td>
+                    <td><?php if ($item['age']>=18){echo 'Совершеннолетний';}else {echo 'Несовершеннолетний';}; ?></td>
                     <td><?php echo $item['description']; ?></td>
                     <!-- Нужно доделать вывод картинки -->
                     <td><img src="/images/avatar<?php echo $item['id']; ?>.jpg" alt=""></td>

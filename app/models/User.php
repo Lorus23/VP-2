@@ -41,7 +41,7 @@ class User
     {
         $pdo = connect();
         // Получение и возврат результатов.
-        $sql = 'SELECT `id`,`name`, `age`, `description`, `login` FROM `users`';
+        $sql = 'SELECT `id`,`name`, `age`, `description`, `login` FROM `users` ORDER BY `age` ASC';
         $result = $pdo->query($sql);
         $userList = array();
         $i = 0;
