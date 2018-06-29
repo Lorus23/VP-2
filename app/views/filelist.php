@@ -10,12 +10,15 @@
                 <th>Действия</th>
             </tr>
             <tr>
-                <td>1.jpg</td>
-                <td><img src="http://lorempixel.com/people/200/200/" alt=""></td>
+
+                <?php foreach ($filesList as $item): ?>
+                <td>avatar<?php echo $item['id']; ?>.jpg</td>
+                <td><img src="/images/avatar<?php echo $item['id']; ?>.jpg" alt=""></td>
                 <td>
-                    <a href="">Удалить аватарку пользователя</a>
+                    <a href="/file/deleteFile/<?php echo $item['id']; ?>">Удалить аватарку пользователя</a>
                 </td>
             </tr>
+            <?php endforeach; ?>
         </table>
 
     </div><!-- /.container -->

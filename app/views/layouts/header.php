@@ -1,3 +1,4 @@
+<?php use App\models\User;?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,14 +35,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Staff Manager</a>
+            <a class="navbar-brand">Staff Manager</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="../">Авторизация</a></li>
-                <li><a href="../user/registration">Регистрация</a></li>
-                <li><a href="../user/userList">Список пользователей</a></li>
-                <li><a href="../file/fileList">Список файлов</a></li>
+                <?php if (User::isGuest()): ?>
+                <li class="active"><a href="/">Авторизация</a></li>
+                <li><a href="/user/registration">Регистрация</a></li>
+                <?php else: ?>
+                <li><a href="/user/userList">Список пользователей</a></li>
+                <li><a href="/file/fileList">Список файлов</a></li>
+                <?php endif; ?>
+                <?php if (User::isGuest()): ?>
+                    <li><a href="/user/index/">Вход</a></li>
+                <?php else: ?>
+                    <li><a href="/user/logout/">Выход</a></li>
+                <?php endif; ?>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
