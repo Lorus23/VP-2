@@ -3,6 +3,7 @@
 namespace App\models;
 require_once 'Db.php';
 
+
 class User
 {
     public function add($data)
@@ -133,6 +134,8 @@ class User
         }
         return true;
     }
+
+
 }
 
 

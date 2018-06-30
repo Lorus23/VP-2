@@ -5,6 +5,7 @@ namespace App\controllers;
 use App\controllers\MainController;
 use App\core\View;
 use App\models\User;
+use Faker;
 
 class UserController extends MainController
 {
@@ -136,4 +137,20 @@ class UserController extends MainController
         header("Location: /");
     }
 
+    public function userFaker()
+    {
+        for ($i=0;$i<30; $i++){
+            $faker = Faker\Factory::create();
+            $user = new User();
+            $data = [
+                'name' => $faker->name,
+                'age' => rand(0,110),
+                'description' => $faker->text(200),
+                'login' => $faker->userName,
+                'password' => $faker->password,
+            ];
+            $user->add($data);
+        }
+
+    }
 }
