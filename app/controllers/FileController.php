@@ -10,9 +10,9 @@ class FileController extends MainController
 {
     public function fileList()
     {
-        $data = new User();
-        $filesList = $data->getUserList();
-
+//        $data = new User();
+//        $filesList = $data->getUserList();
+        $filesList = User::all();
 
         require_once __DIR__ . '\..\views\filelist.php';
 //        $this->view->render('filelist');

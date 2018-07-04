@@ -6,6 +6,7 @@ use App\controllers\MainController;
 use App\core\View;
 use App\models\User;
 use Faker;
+use GUMP;
 
 class UserController extends MainController
 {
@@ -20,14 +21,15 @@ class UserController extends MainController
             // Если форма отправлена
             // Получаем данные из формы
             $login = $_POST['login'];
-            $password = $_POST['password'];
+            $password = md5($_POST['password']);
 
             // Флаг ошибок
             $errors = false;
 
             // Проверяем существует ли пользователь
-            $userId = new User();
-            $userId = $userId->checkUserData($login, $password);
+            $userId = User::where('login', $login)->where('password', $password)->first();
+
+//            checkUserData($login, $password);
 
             if ($userId == false) {
                 // Если данные неправильные - показываем ошибку
@@ -49,42 +51,54 @@ class UserController extends MainController
     public function registration()
     {
         // Обработка формы
-        if (isset($_POST['submit'])) {
+        if (!empty($_POST)) {
             // Если форма отправлена
             // Получаем данные из формы
-            $data = $_POST;
-        }
+            if ($_POST['password'] != $_POST['password-again']) {
+                echo 'Пароли не совпадают, заполните форму корректно!';
+            } else {
+                $is_valid = GUMP::is_valid($_POST, [
+                    'name' => 'required',
+                    'age' => 'required|numeric',
+                    'description' => 'alpha_numeric',
+                    'login' => 'required|alpha_numeric',
+                    'password' => 'required|max_len,100|min_len,4',
+                    'password-again' => 'required|max_len,100|min_len,4',
+                ]);
+                $data = $_POST;
 
-        // Флаг ошибок в форме
-        $errors = false;
-        // При необходимости можно валидировать значения нужным образом
-        if (!isset($data['name']) || empty($data['name'])) {
-            $errors[] = 'Заполните поля';
-        }
+                if ($is_valid === true) {
+                    // Флаг ошибок в форме
+                    $errors = false;
+                    // При необходимости можно валидировать значения нужным образом
 
-        $checkLoginExists = new User();
-        $checkLoginExists = $checkLoginExists->checkLoginExists($data['login']);
 
-        if ($checkLoginExists) {
-            $errors[] = 'Такой логин уже используется';
-        }
+                    $checkLoginExists = User::where('login', $_POST['login'])->first();
+//            $checkLoginExists->checkLoginExists($data['login']);
 
-        if ($errors == false) {
-            // Если ошибок нет
-            // Добавляем нового пользователя
-            $id = new User();
-            $result = $id->add($data);
+                    if ($checkLoginExists) {
+                        $errors[] = 'Такой логин уже используется';
+                    }
 
-            // Если запись добавлена
-            if ($result) {
-                // Проверим, загружалось ли через форму изображение
-                if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
-                    // Если загружалось, переместим его в нужную папке, дадим новое имя
-                    move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/avatar{$result}.jpg");
+                    if ($errors == false) {
+                        // Если ошибок нет
+                        // Добавляем нового пользователя
+                        $result = new User();
+                        $result = $result->add($data);
+                        // Если запись добавлена
+                        if ($result==true) {
+                            // Проверим, загружалось ли через форму изображение
+                            if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
+                                // Если загружалось, переместим его в нужную папке, дадим новое имя
+                                move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/avatar{$result}.jpg");
+                            }
+                        }
+                    }
+                } else {
+                    print_r($is_valid);
                 }
-            };
+            }
         }
-
         $this->view->render('reg');
         return true;
 
@@ -92,12 +106,7 @@ class UserController extends MainController
 
     public function userList()
     {
-        $data = new User();
-        $usersList = $data->getUserList();
-
-        if ($usersList['age']>=18){
-            $usersList['age'] = $usersList['age'].' cовершеннолетний';
-        }
+        $usersList = User::all();
 
 
 //        $this->view->render('userlist');
@@ -139,12 +148,12 @@ class UserController extends MainController
 
     public function userFaker()
     {
-        for ($i=0;$i<30; $i++){
+        for ($i = 0; $i < 30; $i++) {
             $faker = Faker\Factory::create();
             $user = new User();
             $data = [
                 'name' => $faker->name,
-                'age' => rand(0,110),
+                'age' => rand(0, 110),
                 'description' => $faker->text(200),
                 'login' => $faker->userName,
                 'password' => $faker->password,
