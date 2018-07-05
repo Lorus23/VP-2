@@ -29,7 +29,18 @@ class User extends Model
         $user =  User::find($id);
         $user -> delete();
     }
-
+    public static function editUserById($id,$arr)
+    {
+        $data = User::find($id);
+        $data->name = $arr['name'];
+        $data->age = $arr['age'];
+        $data->description = $arr['description'];
+        $data->login = $arr['login'];
+        $data->password = md5($arr['password']);
+        // Если запись добавлена
+        $data->save();
+        return true;
+    }
 
 
     /*

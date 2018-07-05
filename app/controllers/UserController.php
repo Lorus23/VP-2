@@ -44,7 +44,7 @@ class UserController extends MainController
         }
 
         // Подключаем вид
-        $this->view->render('index');
+        $this->view->render('index', []);
         return true;
     }
 
@@ -60,8 +60,8 @@ class UserController extends MainController
                 $is_valid = GUMP::is_valid($_POST, [
                     'name' => 'required',
                     'age' => 'required|numeric',
-                    'description' => 'alpha_numeric',
-                    'login' => 'required|alpha_numeric',
+                    'description' => 'required',
+                    'login' => 'required',
                     'password' => 'required|max_len,100|min_len,4',
                     'password-again' => 'required|max_len,100|min_len,4',
                 ]);
@@ -86,7 +86,7 @@ class UserController extends MainController
                         $result = new User();
                         $result = $result->add($data);
                         // Если запись добавлена
-                        if ($result==true) {
+                        if ($result == true) {
                             // Проверим, загружалось ли через форму изображение
                             if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
                                 // Если загружалось, переместим его в нужную папке, дадим новое имя
@@ -99,7 +99,7 @@ class UserController extends MainController
                 }
             }
         }
-        $this->view->render('reg');
+        $this->view->render('reg', []);
         return true;
 
     }
@@ -127,7 +127,49 @@ class UserController extends MainController
         }
 
         // Подключаем вид
-        $this->view->render('delete');
+        $this->view->render('delete', []);
+        return true;
+    }
+
+    public function editUser($id)
+    {
+        if (!empty($_POST)) {
+            // Если форма отправлена
+            // Получаем данные из формы
+            if ($_POST['password'] != $_POST['password-again']) {
+                echo 'Пароли не совпадают, заполните форму корректно!';
+            } else {
+                $is_valid = GUMP::is_valid($_POST, [
+                    'name' => 'required',
+                    'age' => 'required|numeric',
+                    'description' => 'required',
+                    'login' => 'required',
+                    'password' => 'required|max_len,100|min_len,4',
+                    'password-again' => 'required|max_len,100|min_len,4',
+                ]);
+                $data = $_POST;
+
+                if ($is_valid === true) {
+                    // Если ошибок нет
+                    // Добавляем нового пользователя
+                    $result = new User();
+                    $result = $result->editUserById($id, $data);
+                    // Если запись добавлена
+                    if ($result == true) {
+                        // Проверим, загружалось ли через форму изображение
+                        if (is_uploaded_file($_FILES["photo"]["tmp_name"])) {
+                            // Если загружалось, переместим его в нужную папке, дадим новое имя
+                            move_uploaded_file($_FILES["photo"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/avatar{$result}.jpg");
+                        }
+                    }
+                } else {
+                    print_r($is_valid);
+                }
+            }
+        }
+        $userlist = User::where('id', $id)->first()->toArray();
+
+        $this->view->render('edit', $userlist);
         return true;
     }
 

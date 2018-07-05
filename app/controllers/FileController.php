@@ -31,7 +31,7 @@ class FileController extends MainController
         }
 
         // Подключаем вид
-        $this->view->render('delete');
+        $this->view->render('delete',[]);
         return true;
     }
 

@@ -20,7 +20,10 @@
                     <td><?php echo $item['description']; ?></td>
                     <!-- Нужно доделать вывод картинки -->
                     <td><img src="/images/avatar<?php echo $item['id']; ?>.jpg" alt=""></td>
-                    <td><a href="/user/deleteUser/<?php echo $item['id']; ?>">Удалить пользователя</a></td>
+                    <td><a href="/user/deleteUser/<?php echo $item['id']; ?>">Удалить пользователя</a>
+                        <br><br>
+                        <a href="/user/editUser/<?php echo $item['id']; ?>">Редактировать пользователя</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
